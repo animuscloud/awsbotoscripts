@@ -1,0 +1,23 @@
+#!/usr/bin/env python
+import boto3
+import logging
+
+script = 'ses-verify.py'
+version = 'V1'
+
+class ContextFilter(logging.Filter):
+  def filter(self,record):
+    record.CMDID=script
+    return True
+
+#before using SMTP to send emails
+
+def verifyEmail(emailAddress):
+    client = boto3.client("ses")
+    response = client.verify_email_address(
+                  EmailAddress = emailAddress
+            )
+    print response
+
+
+verifyEmail("tojo@animuscloud.com")
